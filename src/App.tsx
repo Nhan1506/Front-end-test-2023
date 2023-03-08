@@ -1,26 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense, lazy } from "react"
+import { Routes, Route } from "react-router-dom"
+import { SnackbarProvider } from "notistack"
+import { BrowserRouter } from "react-router-dom"
+
+const Home = lazy(() => import("./pages/Home").then(({ Home }) => ({ default: Home })))
+
+const AddBlog = lazy(() => import("./pages/AddBlog").then(({ AddBlog }) => ({ default: AddBlog })))
+
+const DetailBlog = lazy(() =>
+  import("./pages/DetailBlog").then(({ DetailBlog }) => ({
+    default: DetailBlog,
+  }))
+)
+
+const EditBlog = lazy(() => import("./pages/EditBlog").then(({ EditBlog }) => ({ default: EditBlog })))
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <>
+      <BrowserRouter>
+        <SnackbarProvider
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+          <h1>Front End Test 2023</h1>
+          <Suspense fallback={<p> Loading...</p>}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/blog/add" element={<AddBlog />} />
+              <Route path="/blog/detail/:id" element={<DetailBlog />} />
+              <Route path="/blog/edit/:id" element={<EditBlog />} />
+            </Routes>
+          </Suspense>
+        </SnackbarProvider>
+      </BrowserRouter>
+    </>
+  )
 }
 
-export default App;
+export default App
