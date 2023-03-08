@@ -5,7 +5,7 @@ import * as stories from "./Blog.stories"
 
 const { Introduction } = composeStories(stories)
 describe("components/Pagination", () => {
-  it("Blog is displayed", () => {
+  it("Pagination is displayed", () => {
     const { getByText } = render(<Introduction />)
     expect(getByText("")).toBeInTheDocument()
   })
